@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:  
+  arbaint-db:
+    container_name: arbaint-db  
+    image: mysql
+    ports:
+      - 3306:3306
+    networks:
+      - arbaint-network    
+    environment:
+      MYSQL_ROOT_PASSWORD: arbaint
+    # volumes:
+    # - ./db.sql:/docker-entrypoint-initdb.d/db.sql
+    
+  arbaint-pma:    
+    image: phpmyadmin
+    container_name: arbaint-pma
+    networks:
+      - arbaint-network        
+    ports:
+      - "8080:80"    
+    environment:
+      PMA_HOST: arbaint-db    
+    depends_on:
+      - arbaint-db
+
+networks:
+  arbaint-network:
